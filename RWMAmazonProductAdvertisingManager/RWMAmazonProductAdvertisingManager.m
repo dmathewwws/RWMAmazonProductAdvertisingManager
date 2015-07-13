@@ -72,7 +72,7 @@ NSString * const RWMAmazonProductAdvertisingManagerErrorDomain = @"RWMAmazonProd
                                  @"Operation" : @"ItemLookup",
                                  @"ItemId" : ISBN,
                                  @"ResponseGroup" : @"ItemAttributes,Images,EditorialReview",
-                                 @"AssociateTag" : @"12345"
+                                 @"AssociateTag" : @"thplap0e-20"
                                  } mutableCopy];
     
     if (type == RWMAmazonProductAdvertisingISBN13) {

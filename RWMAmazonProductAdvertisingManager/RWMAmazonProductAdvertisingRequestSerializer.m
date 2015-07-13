@@ -27,7 +27,7 @@
 #import "RWMAmazonProductAdvertisingManager.h"
 #import <CommonCrypto/CommonCrypto.h>
 
-NSString * const RWMAmazonProductAdvertisingStandardRegion = @"webservices.amazon.com";
+NSString * const RWMAmazonProductAdvertisingStandardRegion = @"ecs.amazonaws.com";
 NSString * const RWMAmazonProductAdvertisingAWSAccessKey = @"AWSAccessKeyId";
 NSString * const RWMAmazonProductAdvertisingTimestampKey = @"Timestamp";
 NSString * const RWMAmazonProductAdvertisingSignatureKey = @"Signature";
@@ -54,6 +54,7 @@ NSString * RWMISO8601FormatStringFromDate(NSDate *date) {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
     [dateFormatter setDateFormat:@"YYYY-MM-dd'T'HH:mm:ss'Z'"];
+//    [dateFormatter setDateFormat:@"YYYY-MM-dd'T'HH:mm:ss.000'Z'"];
     [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
     
     return [dateFormatter stringFromDate:date];
@@ -61,11 +62,11 @@ NSString * RWMISO8601FormatStringFromDate(NSDate *date) {
 
 NSString * RWMBase64EncodedStringFromData(NSData *data) {
     
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
+//#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
+//    return [data base64EncodedStringWithOptions:0];
+//#else
     return [data base64EncodedStringWithOptions:0];
-#else
-    return [data base64Encoding];
-#endif
+//#endif
     
 }
 
@@ -83,7 +84,7 @@ NSString * RWMBase64EncodedStringFromData(NSData *data) {
     }
     
     self.region = RWMAmazonProductAdvertisingStandardRegion;
-    self.useSSL = YES;
+    self.useSSL = NO;
     self.formatPath = @"/onca/xml";
     
     return self;
@@ -134,6 +135,7 @@ NSString * RWMBase64EncodedStringFromData(NSData *data) {
             id value = [mutableParameters objectForKey:key];
             [canonicalStringArray addObject:[NSString stringWithFormat:@"%@=%@", key, value]];
         }
+        
         NSString *canonicalString = [canonicalStringArray componentsJoinedByString:@"&"];
         canonicalString = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
                                                                                     (__bridge CFStringRef)canonicalString,
